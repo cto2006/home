@@ -1,32 +1,28 @@
 package main
 
 import (
-	_ "home/routers"
 	"github.com/astaxie/beego"
-	"strings"
-	"net/http"
 	"github.com/astaxie/beego/context"
-	_"home/models"
-
+	_ "home/models"
+	_ "home/routers"
+	"net/http"
+	"strings"
 )
 
 func main() {
-	ignoreStaticPath()//优先执行静态化
+	ignoreStaticPath() //优先执行静态化1
 	beego.BConfig.WebConfig.Session.SessionOn = true
 	beego.Run(":6693")
 }
 
-
-
 func ignoreStaticPath() {
 
 	//透明static
-	beego.SetStaticPath("group1/M00/","fdfs/storage_data/data/")
+	beego.SetStaticPath("group1/M00/", "fdfs/storage_data/data/")
 
 	beego.InsertFilter("/", beego.BeforeRouter, TransparentStatic)
 	beego.InsertFilter("/*", beego.BeforeRouter, TransparentStatic)
 }
-
 
 func TransparentStatic(ctx *context.Context) {
 	orpath := ctx.Request.URL.Path
